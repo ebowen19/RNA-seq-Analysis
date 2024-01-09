@@ -1,6 +1,4 @@
-### Repository README Draft
-
-#### RNA-seq Analysis
+### RNA-seq Analysis
 
 This repository is dedicated to RNA sequencing (RNA-seq) analysis, incorporating a variety of R scripts for different stages of analysis, including differential expression analysis, gene set enrichment, and pathway analysis. The repository utilizes R packages like `limma`, `edgeR`, and `fgsea` to facilitate comprehensive RNA-seq data analysis.
 
