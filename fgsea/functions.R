@@ -701,14 +701,6 @@ extract_common_leading_edges <- function(fgseaResults, commonPathways_master, ex
 save_final_results <- function(final_results, base_path, file_name_template = "{pathway_type}_genes.csv") {
   for (category in names(final_results)) {
     cat_folder <- file.path(base_path, category)
-    if (!dir.exists(cat_folder)) {
-      dir.create(cat_folder, recursive = TRUE)
-    }
-    for (subcategory in names(final_results[[category]])) {
-      subcat_folder <- file.path(cat_folder, subcategory)
-      if (!dir.exists(subcat_folder)) {
-        dir.create(subcat_folder)
-      }
       for (pathway_type in names(final_results[[category]][[subcategory]])) {
         pathway_dfs <- list()
         for (pathway in names(final_results[[category]][[subcategory]][[pathway_type]])) {
