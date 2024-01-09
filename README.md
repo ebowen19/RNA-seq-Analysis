@@ -11,12 +11,6 @@ This repository is dedicated to RNA sequencing (RNA-seq) analysis, incorporating
 6. **Functional Gene Testing:** Scripts for testing and validating functional genes.
 7. **Top Gene Analysis:** Identifying and analyzing top genes from datasets.
 
-**Scripts Overview:**
-- `RNAseqAnalysis.R`: Main script for overall RNA-seq analysis.
-- `topGenes.R`: Focused on analyzing top genes from the dataset.
-- `testFunctionalGenes.R` and `testDifferentialGenes.R`: For testing and validating genes based on their functions and differential expression.
-- `Package Installation Instructions.R`: Guide for setting up necessary R packages.
-
 **How to Use:**
 - Scripts are organized to follow the typical workflow of RNA-seq analysis.
 - Users are encouraged to follow the scripts in sequential order, starting from differential expression to pathway analysis for the best results.
