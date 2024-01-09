@@ -1,6 +1,6 @@
 ### fgsea - Gene Set Enrichment Analysis
 
-This subfolder within the RNA-seq Analysis repository contains scripts and notebooks dedicated to performing Gene Set Enrichment Analysis using the `fgsea` package in R. It provides a comprehensive workflow for analyzing gene sets and pathways.
+This subfolder within the RNA-seq Analysis repository contains scripts and notebooks dedicated to performing Gene Set Enrichment Analysis using the `fgsea` (fast-GSEA) package in R. It provides a comprehensive workflow for analyzing gene sets and pathways.
 
 **Workflow Overview:**
 1. **Running Differential Expression Analysis** on selected gene sets.
