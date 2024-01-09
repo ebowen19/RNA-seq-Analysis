@@ -1,9 +1,24 @@
-Full workflow for running gsea & further analysis with the fgsea package in R. 
-1. First, Run Differential expression Analysis for chosen gene sets
-2. Create volcano plots from DE data
-3. Use that data for the ranked list of gene input to run fgsea
-4. Extract common pathways for DE comparisons
-5. Extract common leading edge genes from those pathways
-6. Count up the common genes' occurences in different pathways for each gene set and for all the common gene sets combined
-7. create linked HTML files with gene counts, with the headings linking to the pathway & leading edge gene data for each gene set so
-that you can see which gene set(s) the genes are linked to from the HTML file.
+**gsea - Gene Set Enrichment Analysis**
+This subfolder within the RNA-seq Analysis repository contains scripts and notebooks dedicated to performing Gene Set Enrichment Analysis using the fgsea package in R. It provides a comprehensive workflow for analyzing gene sets and pathways.
+
+**Workflow Overview:**
+
+1. **Running Differential Expression Analysis** on selected gene sets.
+2. **Generating Volcano Plots** to visualize differential expression data.
+3. **Performing GSEA** with ranked gene lists.
+4. **Extracting Common Pathways** for differential expression comparisons.
+5. **Identifying Common Leading Edge Genes** in these pathways.
+6. **Tallying Common Genes' Occurrences** across pathways and gene sets.
+7. **Creating Linked HTML Files** for detailed analysis, with gene counts linking to pathway and gene data.
+
+**Scripts and Notebooks:**
+
+- fgsea.R: Main script for loading required libraries and initial data processing.
+- volcano plots.R: Script for creating volcano plots.
+- differential expression updated.R, common gene analysis.R, fgsea_commonPathways.R: Scripts for various stages of GSEA.
+- functions.R: Contains functions used across different scripts for analysis.
+- HTML generation.R and HTML Editing.ipynb: For generating and editing HTML reports.
+
+**Usage:**
+
+Each script is part of the analysis pipeline and should be run in the specified order under *Workflow Overview* for optimal results.
