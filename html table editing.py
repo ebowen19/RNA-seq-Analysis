@@ -38,10 +38,7 @@ def modify_html_table(file_path):
 
 
 # %%
-
-from bs4 import BeautifulSoup
-
-
+# Function to create Interactive Data tables
 def add_datatables(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         html_content = file.read()
@@ -99,3 +96,82 @@ for directory, files in directories_files.items():
     for file in files:
         # modify_html_table(file)
         add_datatables(file)
+
+
+#%%
+def add_datatables_search(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        html_content = file.read()
+
+    soup = BeautifulSoup(html_content, 'html.parser')
+
+    # Ensure <html>, <head>, and <body> tags are present
+    if not soup.html:
+        html_tag = soup.new_tag('html')
+        soup.append(html_tag)
+    if not soup.head:
+        head_tag = soup.new_tag('head')
+        soup.html.insert(0, head_tag)
+    if not soup.body:
+        body_tag = soup.new_tag('body')
+        soup.html.append(body_tag)
+
+    head = soup.head
+
+    # Add an ID to the table if not already present
+    table = soup.find('table')
+    if table and not table.has_attr('id'):
+        table['id'] = 'dataTable'
+
+    # Add DataTables CSS and JS in the <head>
+    if not head.find("script", {"src": "https://code.jquery.com/jquery-3.5.1.js"}):
+        jquery_script = soup.new_tag("script", src="https://code.jquery.com/jquery-3.5.1.js")
+        head.append(jquery_script)
+    if not head.find("link", {"href": "https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css"}):
+        datatables_css = soup.new_tag("link", rel="stylesheet", type="text/css", href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css")
+        head.append(datatables_css)
+    if not head.find("script", {"src": "https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"}):
+        datatables_script = soup.new_tag("script", src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js", charset="utf8")
+        head.append(datatables_script)
+
+    # Initialize DataTables with search functionality and showing all entries
+    init_script = soup.new_tag("script")
+    init_script.string = "$(document).ready(function() { $('#dataTable').DataTable({ 'paging': false, 'searching': true, 'info': false }); });"
+    soup.body.append(init_script)
+
+    # Write the modified content back to a new file
+    with open(file_path, 'w', encoding='utf-8') as file:
+        file.write(str(soup))
+
+
+
+
+# %%
+# List Pathway Files (Which we want to add search ability to)
+
+# Define the directory path where you want to start searching
+start_directory = ('/Users/elizabeth 1/Library/CloudStorage/Box-Box/Wu Lab/Project - statin/8. RNA-seq/Elizabeth/LW15 '
+                   'analysis/LW15-Target-Genes/Common Genes')
+
+# Create an empty list to store the HTML file paths
+pathway_files = []
+
+# Use os.walk() to traverse through the directory and its subfolders
+for root, _, files in os.walk(start_directory):
+    for file in files:
+        # Check if the file has a .html extension
+        if file.endswith('genes.html'):
+            # Create the full file path and add it to the list
+            file_path = os.path.join(root, file)
+            pathway_files.append(file_path)
+
+# Now, html_files contains a list of all HTML files in the specified directory and its subfolders
+print(pathway_files)
+
+#%%
+
+# Example usage
+for file_path in pathway_files:
+    add_datatables_search(file_path)
+
+#%%
