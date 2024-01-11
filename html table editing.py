@@ -38,6 +38,10 @@ def modify_html_table(file_path):
 
 
 # %%
+
+from bs4 import BeautifulSoup
+
+
 def add_datatables(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         html_content = file.read()
@@ -48,29 +52,27 @@ def add_datatables(file_path):
     table = soup.find('table')
     table['id'] = 'dataTable'
 
-    # Find the index of the "Upregulated_Total" column
+    # Find the index of the "Upregulated_Total" or "Downregulated_Total" column
     headers = table.find('thead').find_all('th')
-    upregulated_total_index = next((i for i, th in enumerate(headers) if "Upregulated_Total" in th.text), -1)
+    upregulated_index = next((i for i, th in enumerate(headers) if "Upregulated_Total" in th.text), -1)
+    downregulated_index = next((i for i, th in enumerate(headers) if "Downregulated_Total" in th.text), -1)
+    sort_index = upregulated_index if upregulated_index != -1 else downregulated_index
 
     # Add DataTables CSS and JS in the <head>
     head = soup.head
     jquery_script = soup.new_tag("script", src="https://code.jquery.com/jquery-3.5.1.js")
     head.append(jquery_script)
-    datatables_css = soup.new_tag("link", rel="stylesheet", type="text/css", href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css")
+    datatables_css = soup.new_tag("link", rel="stylesheet", type="text/css",
+                                  href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css")
     head.append(datatables_css)
-    datatables_script = soup.new_tag("script", src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js", charset="utf8")
+    datatables_script = soup.new_tag("script", src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js",
+                                     charset="utf8")
     head.append(datatables_script)
 
     # Initialize DataTables with dynamic sorting
     init_script = soup.new_tag("script")
-    init_script.string = f"""
-    $(document).ready(function() {{
-        $('#dataTable').DataTable({{
-            "order": [[{upregulated_total_index}, "desc"]],
-            "lengthMenu": [[-1], ["All"]]
-        }});
-    }});
-    """
+    order_string = f"\"order\": [[{sort_index}, 'desc']], " if sort_index != -1 else ""
+    init_script.string = "$(document).ready(function() { $('#dataTable').DataTable({ " + order_string + "\"lengthMenu\": [[-1], ['All']] }); });"
     soup.body.append(init_script)
 
     # Write the modified content back to a new file
@@ -85,15 +87,15 @@ main_path = ('/Users/elizabeth 1/Library/CloudStorage/Box-Box/Wu Lab/Project - s
 
 # List of directories and their respective files to process
 directories_files = {
-    main_path + '/Original Comparisons': ['OriginalComparisons_Up_GeneTable.html'],
+    main_path + '/Original Comparisons': ['OriginalComparisons_Up_GeneTable.html',
+                                          'OriginalComparisons_Down_GeneTable.html'],
     main_path + '/New Comparisons': ['NewComparisons_Up_GeneTable.html', 'NewComparisons_Down_GeneTable.html'],
-    main_path + '/New Comparisons/Without trop2': ['Up_GeneTable.html']
+    main_path + '/New Comparisons/Without trop2': ['Up_GeneTable.html', 'Down_GeneTable.html']
 }
-#%%
+# %%
 # Iterate over directories and files
 for directory, files in directories_files.items():
     os.chdir(directory)
     for file in files:
         # modify_html_table(file)
         add_datatables(file)
-
