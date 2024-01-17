@@ -79,26 +79,6 @@ def add_datatables(file_path):
 
 
 # %%
-main_path = ('/Users/elizabeth 1/Library/CloudStorage/Box-Box/Wu Lab/Project - statin/8. RNA-seq/Elizabeth/LW15 '
-             'analysis/LW15-Target-Genes/Common Genes')
-
-# List of directories and their respective files to process
-directories_files = {
-    main_path + '/Original Comparisons': ['OriginalComparisons_Up_GeneTable.html',
-                                          'OriginalComparisons_Down_GeneTable.html'],
-    main_path + '/New Comparisons': ['NewComparisons_Up_GeneTable.html', 'NewComparisons_Down_GeneTable.html'],
-    main_path + '/New Comparisons/Without trop2': ['Up_GeneTable.html', 'Down_GeneTable.html']
-}
-# %%
-# Iterate over directories and files
-for directory, files in directories_files.items():
-    os.chdir(directory)
-    for file in files:
-        # modify_html_table(file)
-        add_datatables(file)
-
-
-#%%
 def add_datatables_search(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         html_content = file.read()
@@ -128,10 +108,12 @@ def add_datatables_search(file_path):
         jquery_script = soup.new_tag("script", src="https://code.jquery.com/jquery-3.5.1.js")
         head.append(jquery_script)
     if not head.find("link", {"href": "https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css"}):
-        datatables_css = soup.new_tag("link", rel="stylesheet", type="text/css", href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css")
+        datatables_css = soup.new_tag("link", rel="stylesheet", type="text/css",
+                                      href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css")
         head.append(datatables_css)
     if not head.find("script", {"src": "https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"}):
-        datatables_script = soup.new_tag("script", src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js", charset="utf8")
+        datatables_script = soup.new_tag("script", src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js",
+                                         charset="utf8")
         head.append(datatables_script)
 
     # Initialize DataTables with search functionality and showing all entries
@@ -144,7 +126,24 @@ def add_datatables_search(file_path):
         file.write(str(soup))
 
 
+# %%
+main_path = ('/Users/elizabeth 1/Library/CloudStorage/Box-Box/Wu Lab/Project - statin/8. RNA-seq/Elizabeth/LW15 '
+             'analysis/LW15-Target-Genes/Common Genes')
 
+# List of directories and their respective files to process
+directories_files = {
+    main_path + '/Original Comparisons': ['OriginalComparisons_Up_GeneTable.html',
+                                          'OriginalComparisons_Down_GeneTable.html'],
+    main_path + '/New Comparisons': ['NewComparisons_Up_GeneTable.html', 'NewComparisons_Down_GeneTable.html'],
+    main_path + '/New Comparisons/Without trop2': ['Up_GeneTable.html', 'Down_GeneTable.html']
+}
+# %%
+# Iterate over directories and files
+for directory, files in directories_files.items():
+    os.chdir(directory)
+    for file in files:
+        # modify_html_table(file)
+        add_datatables(file)
 
 # %%
 # List Pathway Files (Which we want to add search ability to)
@@ -168,10 +167,37 @@ for root, _, files in os.walk(start_directory):
 # Now, html_files contains a list of all HTML files in the specified directory and its subfolders
 print(pathway_files)
 
-#%%
-
-# Example usage
 for file_path in pathway_files:
     add_datatables_search(file_path)
 
-#%%
+
+# %%
+
+def replace_string_in_files(file_paths, old_string, new_string):
+    for file_path in file_paths:
+        # Read the content of the file
+        with open(file_path, 'r', encoding='utf-8') as file:
+            content = file.read()
+
+        # Replace the old string with the new string
+        modified_content = content.replace(old_string, new_string)
+
+        # Write the modified content back to the file
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(modified_content)
+
+
+# List of file paths to modify
+file_paths = [
+    '/path/to/your/firstfile.html',
+    '/path/to/your/secondfile.html',
+    # Add more file paths as needed
+]
+
+# Strings to be replaced
+old_string = 'The string to be replaced'
+new_string = 'The new string'
+
+# Call the function
+replace_string_in_files(file_paths, old_string, new_string)
+# Say 'Key Genes' & 'Enriched Pathways' in title
