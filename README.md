@@ -2,6 +2,8 @@
 
 This repository is dedicated to RNA sequencing (RNA-seq) analysis, incorporating a variety of R scripts for different stages of analysis, including differential expression analysis, gene set enrichment, and pathway analysis. The repository utilizes R packages like `limma`, `edgeR`, and `fgsea` to facilitate comprehensive RNA-seq data analysis.
 
+See the final results of the RNA-seq analysis [here](https://ebowen19.github.io/LW15-Target-Genes/)
+
 **Main Features:**
 1. **Differential Expression Analysis:** Scripts for identifying differentially expressed genes using `limma` and `edgeR`.
 2. **Gene Set Enrichment Analysis (GSEA):** Using the `fgsea` package to analyze gene sets and pathways.
